@@ -1,0 +1,61 @@
+repeat wait() until game:IsLoaded()
+local on = true 
+while task.wait(.1) do 
+     if on == true then 
+if game:GetService("Players").LocalPlayer.PlayerGui.Notification.VitoryFrame.Visible == true then 
+    local Signals = {"Activated", "MouseButton1Down", "MouseButton2Down", "MouseButton1Click", "MouseButton2Click"}
+for _,v in pairs(game:GetService("Players").LocalPlayer.PlayerGui.Notification.VitoryFrame:GetChildren()) do
+if v:IsA("ImageButton") and v.Name == "Next" then
+    for i,Signal in pairs(Signals) do
+        firesignal(v[Signal]) end end end end
+wait(.2)
+function SendMessage(url, message)
+    local http = game:GetService("HttpService")
+    local headers = {
+        ["Content-Type"] = "application/json"
+    }
+    local data = {
+        ["content"] = message
+    }
+    local body = http:JSONEncode(data)
+    local response = request({
+        Url = url,
+        Method = "POST",
+        Headers = headers,
+        Body = body
+    })
+end
+function SendMessageEMBED(url, embed)
+    local http = game:GetService("HttpService")
+    local headers = {
+        ["Content-Type"] = "application/json"
+    }
+    local data = {
+        ["embeds"] = {
+            {
+                ["title"] = embed.title,
+                ["description"] = embed.description,
+                ["color"] = embed.color,
+                ["fields"] = embed.fields,
+                ["footer"] = {
+                    ["text"] = embed.footer.text
+                }
+            }
+        }
+    }
+    local body = http:JSONEncode(data)
+    local response = request({
+        Url = url,
+        Method = "POST",
+        Headers = headers,
+        Body = body
+    })
+end
+local url = "https://discord.com/api/webhooks/1237674507280449566/8cHhb3MhOxNA2eegoIrJGe2f6TcFJ453KkXGpPRs3r7GK6ouucnFBrGL4RUug7sAyF8G"
+
+SendMessage(url, "Item Dropped: " ..
+ game:GetService("Players").LocalPlayer.PlayerGui.DropViewGui.UnitName.Text ..
+ "\nItem Rarity: " .. game:GetService("Players").LocalPlayer.PlayerGui.DropViewGui.RarityText.Text)
+  on = false
+end 
+end 
